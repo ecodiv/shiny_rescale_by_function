@@ -1,6 +1,6 @@
 ##  Visualization of rescale functions
 
-Shiny dashboard to visualize the effect of different rescale functions and their parmeter settings.
+*Shiny dashboard to visualize the effect of different rescale functions and their parmeter settings*.
 
 Part of a spatial multicriteria decision analysis is to rescale the different criteria layers to a common scale of e.g., 0 to 1. In QGIS, this can be done using e.g., the fuzzify functions.
 
