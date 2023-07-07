@@ -1,0 +1,70 @@
+//
+// Colors HAS green academy
+// Paulo van Breugel, 05-07-2023
+//
+
+$haslightgreen: #1CD354 !default;
+$hasdarkgreen:  #274232 !default;
+$haslightblue:  #008AFF !default;
+$hasdarkblue:   #163951 !default;
+$haslightpink:  #E324BA !default;
+$hasdarkpink:   #421B44 !default;
+$haslightred:   #ED2B00 !default;
+$hasdarkred:    #511A23 !default;
+
+$primary:       $hasdarkblue !default;
+$secondary:     $haslightblue !default;
+$success:       $haslightgreen !default;
+$info:          $haslightpink !default;
+$warning:       $hasdarkpink !default;
+$danger:        $haslightred !default;
+$light:         $haslightblue !default;
+$dark:          $hasdarkblue !default;
+
+.btn-default:not(.btn-primary):not(.btn-info):not(.btn-success):not(.btn-warning):not(.btn-danger):not(.btn-dark):not(.btn-outline-primary):not(.btn-outline-info):not(.btn-outline-success):not(.btn-outline-warning):not(.btn-outline-danger):not(.btn-outline-dark) {
+  color: #fff;
+  background-color: $haslightblue;
+  border-color: $haslightblue;
+}
+.section.sidebar {
+  background-color: #fff;
+  overflow-x: hidden !important;
+}
+.form-group {
+  margin-bottom: 0.4rem;
+}
+label {
+  margin-bottom: .25rem;
+}
+.reduce_space p {
+  margin-bottom: 4px;
+}
+.textbox2 {
+  border-width: 1px !important;
+  border-color: $hasdarkblue !important;
+  border-radius: 5px !important;
+  padding: 8px !important;
+  margin-bottom: 4px !important;
+}
+.textbox {
+  border: solid;
+  border-width: 1px;
+  border-color: $haslightblue;
+  border-radius: 5px;
+  padding: 8px;
+  margin-bottom: 4px;
+}
+.selectize-input {
+  min-height: calc(1.5em + 0.5rem);
+}
+.form-control {
+  height: 2rem;
+}
+
+.navbar-logo {
+  margin-top: 0px;
+  margin-left: -8px;
+  max-height: 36px;
+  margin-top:0px;
+  margin-bottom: 0px;
+}

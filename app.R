@@ -356,7 +356,7 @@ server <- function(input, output) {
         df2 <- data.frame(x = x, rescaled_x = rescaled_x2, Plots = "lower")
         df <- rbind(df1, df2)
         ggplot(df, aes(x, rescaled_x, color=Plots)) +
-          geom_line(size=1.3) +
+          geom_line(line=1.3) +
           ylim(tarmin, tarmax) +
           xlim(range_min, range_max) +
           labs(x = "Original data values", y = "Rescaled data values")  +
@@ -367,7 +367,7 @@ server <- function(input, output) {
       } else {
         df <- data.frame(x = x, rescaled_x = rescaled_x)
         ggplot(df, aes(x, rescaled_x)) +
-          geom_line(color="#5279CB", size=1.3) +
+          geom_line(color="#5279CB", linewidth=1.3) +
           theme_bw(base_size = 12) +
           ylim(tarmin, tarmax) +
           xlim(range_min, range_max) +
