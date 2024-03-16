@@ -21,31 +21,110 @@ $danger:        $haslightred !default;
 $light:         $haslightblue !default;
 $dark:          $hasdarkblue !default;
 
+//
+// Text and paragraph elements
+//
+
+.reduce_space p {
+  margin-bottom: 4px;
+}
+
+a {
+  color: $haslightblue;
+}
+
+.first-rescale {
+  color: $haslightblue;
+}
+.dot1 {
+  height: 0.7rem;
+  width: 0.7rem;
+  background-color: $haslightblue;
+  border-radius: 50%;
+  display: inline-block;
+}
+.second-rescale {
+  color: #309464;
+}
+.dot2 {
+  height: 0.7rem;
+  width: 0.7rem;
+  background-color: #309464;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+//
+// Storybord
+//
+
+.storyboard-nav .sbframelist ul li.active {
+  color: #FFFFFF !important;
+  background-color: $haslightblue !important;
+}
+
+.storyboard-nav .sbframelist ul li {
+  color: #FFFFFF !important;
+  background-color: $hasdarkblue !important;
+}
+
+.slide_frame {
+  border: none;
+  padding: 2.5rem 5.5rem 2.5rem 4.5rem;
+  height: 100%;
+}
+
+.slide_frame_tide {
+  border: none;
+  padding: 2.5rem 4.5rem 2.5rem 4.5rem;
+  height: 100%;  
+}
+
+.rowp {
+  display: block;
+}
+.columnp {
+  flex: 50%;
+  padding: 10px;
+
+}
+
+.paddingimage img {
+  padding: 4px 2rem 5px 2rem;
+}
+.paddingpage {
+  padding: 2px;
+}
+
+.sbframe-commentary {
+  width: 50% !important;
+}
+
+//
+// Dashboard and page elements
+//
+
+.navbar-logo {
+  margin-top: 0px;
+  margin-left: -8px;
+  max-height: 36px;
+  margin-top:0px;
+  margin-bottom: 0px;
+}
+
 .btn-default:not(.btn-primary):not(.btn-info):not(.btn-success):not(.btn-warning):not(.btn-danger):not(.btn-dark):not(.btn-outline-primary):not(.btn-outline-info):not(.btn-outline-success):not(.btn-outline-warning):not(.btn-outline-danger):not(.btn-outline-dark) {
   color: #fff;
   background-color: $haslightblue;
   border-color: $haslightblue;
 }
-.section.sidebar {
-  background-color: #fff;
-  overflow-x: hidden !important;
-}
+
 .form-group {
   margin-bottom: 0.4rem;
 }
 label {
   margin-bottom: .25rem;
 }
-.reduce_space p {
-  margin-bottom: 4px;
-}
-.textbox2 {
-  border-width: 1px !important;
-  border-color: $hasdarkblue !important;
-  border-radius: 5px !important;
-  padding: 8px !important;
-  margin-bottom: 4px !important;
-}
+
 .textbox {
   border: solid;
   border-width: 1px;
@@ -61,10 +140,47 @@ label {
   height: 2rem;
 }
 
-.navbar-logo {
-  margin-top: 0px;
-  margin-left: -8px;
-  max-height: 36px;
-  margin-top:0px;
-  margin-bottom: 0px;
-}
+//
+// Floating images
+//
+
+
+  /* For desktop: */
+  .floatleft {
+  	float:left;
+  	width: 50%;
+  	height: auto;
+  	margin: 2px 20px 2px 2px;
+  }
+  
+  .floatleft40 {
+  	float:left;
+  	width: 40%;
+  	height: auto;
+  	margin: 2px 20px 2px 2px;
+  }
+  
+  .floatleft .caption {
+  	margin-bottom: 0px;
+  }
+  
+  .floatright {
+  	float:right;
+  	width: 50%;
+  	height: auto;
+  	margin: 2px 2px 2px 20px;
+  }
+  
+  .floatright30 {
+  	float:right;
+  	width: 30%;
+  	height: auto;
+  	margin: 2px 2px 2px 20px;
+  }
+  
+  .floatright20 {
+  	float:right;
+  	width: 20%;
+  	height: auto;
+  	margin: 2px 2px 2px 20px;
+  }
