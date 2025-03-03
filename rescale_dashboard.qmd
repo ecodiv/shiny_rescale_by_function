@@ -1,19 +1,10 @@
 ---
 title: "Rescale Function Visualization"
-output: 
-  flexdashboard::flex_dashboard:
-    #social: menu
-    #source_code: embed
+author: "Paulo van Breugel"
+format: 
+  dashboard:
     css: my_style_rules.scss
     logo: images/HAS-logo-blauw.png
-    #orientation: columns
-    vertical_layout: fill
-    theme: 
-        version: 4
-        bg: "#fff"
-        fg: "#163951" 
-        primary: "#163951"
-        navbar-bg: "#163951"
 runtime: shiny
 ---
 
@@ -93,7 +84,7 @@ conditionalPanel(
   fluidRow(
     column(6, numericInput("power_lb", "Lower bound:", min = NA, max = NA, value = 0)),
     column(6, numericInput("power_ub", "Upper bound:", min = NA, max = NA, value = 50))),
-  numericInput("power_f1", "Exponent:", min = 0, max = NA, value = 2)
+  numericInput("power_f1", "Exponent:", min = 0, max = NA, value = 2),
 ),
 conditionalPanel(
   condition = "input.rescale_type == 'Gaussian'",
@@ -148,7 +139,7 @@ conditionalPanel(
       fluidRow(
         column(6, numericInput("power_lb2", "Lower bound:", min = NA, max = NA, value = 0)),
         column(6, numericInput("power_ub2", "Upper bound:", min = NA, max = NA, value = 50))),
-      numericInput("power_f12", "Exponent:", min = 0, max = NA, value = 2)
+      numericInput("power_f12", "Exponent:", min = 0, max = NA, value = 2),
     ),
     conditionalPanel(
       condition = "input.rescale_type2 == 'Gaussian'",
@@ -191,7 +182,9 @@ In most GIS programs you can rescale raster values using the raster calculator. 
 
 > Note that fuzzify and rescale functions, while conceptually different, can be considered similar in terms of their underlying mathematical operations. Both functions involve applying mathematical formulas to adjust and map values onto a desired range. For that reason, we can use the before-mentioned fuzzify functions to rescale our layers.
 
-The problem, especially if you are not familiar with the different rescaling functions, is to decide which parameter settings to use. This app aims to provide a visual aid by allowing you to try out the different rescaling functions and their parameter settings. You can also compare two different combinations of functions and settings. For now, the fuzzy functions from QGIS are implemented.
+The problem, especially if you are not familiar with the different rescaling functions, is to decide which parameter settings to use.
+
+This app aims to provide a visual aid by allowing you to try out the different rescaling functions and their parameter settings. You can also compare two different combinations of functions and settings. For now, the fuzzy functions from QGIS are implemented.
 
 For more information about the available rescaling functions, see the Information tab. For the source code on Github click [here](https://github.com/ecodiv/shiny_rescale_by_function/).
 :::
@@ -200,9 +193,7 @@ For more information about the available rescaling functions, see the Informatio
 
 Try out a rescale function, change the parameters and you'll see the result (almost) immediately. Select the _compare plots_ to compare different rescaling functions or different parameter settings. 
 
-If you change the minimum and maximum target range, you have the option to constrain the x-axis to a scale from 0-1. 
-
-When using a linear or power rescale, you can swap between a positive and negative rescale by swapping the lower and upper bound values. You cannot swamp the target minimum and maximum value, this will result in an error message.
+If you change the minimum and maximum target range, you have the option to constrain the x-axis to a scale from 0-1.
 
 Hoover over the plots to get the value at a specific point in your graph. It will also show a button (camera) that you can use to save the image to your computer.
 
@@ -384,28 +375,18 @@ df <-  reactive({
   })
 
 renderPlotly({
-  if(target_max() >= target_min() & target_max2() >= target_min2()){
-    plotly::ggplotly(
-      ggplot(df(), aes(x, y, color=Plots)) +
-        geom_line(linewidth=1.0) +
-        theme_bw() +
-        theme(legend.position="none") +
-        ylim(tarmin(), tarmax()) +
-        xlim(range_min(), range_max()) +
-        labs(x = "Original data values", y = "Rescaled data values") +
-        scale_color_manual(values = c("plot1" = "#008AFF", "plot2" = "#309464"))
-      ) |>
-        config(displaylogo = FALSE)
-  }else{
-    plotly::ggplotly(
-      ggplot() +
-        annotate("text", 
-                 x = 0.5, y = 0.5, 
-                 label = "Error:\ntarget range max must be greater\n than or equal to target range min",
-                 size = 6, color = "red", hjust = 0.5, vjust = 0.5) +
-        theme_void() +
-        theme(plot.background = element_rect(fill = "white", color = "white"))
-    )}})
+  plotly::ggplotly(
+    ggplot(df(), aes(x, y, color=Plots)) +
+      geom_line(linewidth=1.0) +
+      theme_bw() +
+      theme(legend.position="none") +
+      ylim(tarmin(), tarmax()) +
+      xlim(range_min(), range_max()) +
+      labs(x = "Original data values", y = "Rescaled data values") +
+      scale_color_manual(values = c("plot1" = "#008AFF", "plot2" = "#309464"))
+  ) |>
+    config(displaylogo = FALSE)
+})
 ```
 
 ### <span class="dot1"></span> [Rescaled layer]{.first-rescale}
@@ -556,9 +537,9 @@ knitr::include_graphics("images/rescale_powermembership3.svg")
 
 The power function is defined using three user-specified input raster values:
 
-- **Upper Bound**: Represents the conditions for full suitability (mapped to 1).
-- **Lower Bound**: Represents the conditions for full unsuitability (mapped to 0).
-- **Exponent**: A positive value that determines the steepness of the transformation curve.
+- Upper Bound: Represents the conditions for full suitability (mapped to 1).
+- Lower Bound: Represents the conditions for full unsuitability (mapped to 0).
+- Exponent: A positive value that determines the steepness of the transformation curve.
 
 The values between the upper and lower bounds are transformed using the power function. By swapping the upper and lower bounds, the algorithm can model both increasing and decreasing fuzzy sets.
 
@@ -592,133 +573,15 @@ This approach captures the relationship between food availability and suitabilit
 
 :::
 
-### <img src="images/large.svg" height="75">
-
-::: {.slide_frame}
-
-#### Rescale using a large membership transformation
-
-The Large membership rescale function is typically used when larger input raster values should be more preferably than lower values.
-
-<div class="paddingimage">
-```{r, out.width= "60%", out.extra='style="float:right;"'}
-knitr::include_graphics("images/rescale_largemembership2.svg")
-```
-</div>
-
-The **midpoint** is the transition point of the function. The slope of the graph becomes gradually steeper up to the midpoint. After the midpoint, the slope becomes gradually less steep (the rate of change decreases) when moving away from the midpoint. Shifting the midpoint to the left results in an increase in the range of the larger values being more preferred to the right of the midpoint.
-
-<div class="paddingimage">
-```{r, out.width= "60%", out.extra='style="float:right;"'}
-knitr::include_graphics("images/rescale_largemembership1.svg")
-```
-</div>
-
-The **spread** controls the steepness of the function's slope. As illustrated in the figure to the right, when the spread value increases, the rate of change will more quickly increase when approaching the midpoint. And it will more quickly decrease when moving away from the midpoint towards to the upper threshold. Or, simply put, a larger spread leads to a 'steeper' curve.
-
-:::
-
-***
-
-::: {.slide_frame}
-
-#### User case
-
-In agricultural planning, certain crops may thrive in regions with higher rainfall levels. For instance, a crop like rice might grow best in areas receiving over 1,000 mm of rainfall annually. Using the Large rescale function, you can model this preference:
-
-- Midpoint: Set to 1,000 mm, representing the transition point where suitability begins to significantly increase.
-- Spread: Adjust to control how steeply suitability rises with increasing rainfall, reflecting diminishing returns after an optimal range.
-
-:::
-
-
-### <img src="images/small.svg" height="75">
-
-::: {.slide_frame}
-
-#### Rescale using a small membership transformation
-
-The Small membership rescale function is typically used when smaller input raster values should be more preferably than higher values.
-
-<div class="paddingimage">
-```{r, out.width= "60%", out.extra='style="float:right;"'}
-knitr::include_graphics("images/rescale_smallmembership2.svg")
-```
-</div>
-
-The **midpoint** is the transition point of the function. The slope of the graph becomes gradually steeper up to the midpoint. After the midpoint, the slope becomes gradually less steep (the rate of change decreases) when moving away from the midpoint. Shifting the midpoint to the right results in an increase in the range of the larger values being more preferred to the left of the midpoint.
-
-<div class="paddingimage">
-```{r, out.width= "60%", out.extra='style="float:right;"'}
-knitr::include_graphics("images/rescale_smallmembership1.svg")
-```
-</div>
-
-The **spread** controls the steepness of the function's slope. As illustrated in the figure, when the spread value increases, input values above the midpoint will more quickly decrease in preference when moving away from the midpoint, and input values less than the midpoint will more quickly decrease when moving away from the midpoint. Or, simply put, a larger spread leads to a 'flatter' curve.
-
-:::
-
-***
-
-::: {.slide_frame}
-
-#### User case
-
-In urban development, properties closer to amenities such as schools, parks, or shopping centers may be more desirable. For example, a planning agency might prioritize locations within 2 kilometers of a school:
-
-- Midpoint: Set to 2 km, representing the transition point where locations closer to the amenity become increasingly desirable.
-- Spread: Adjust to control how steeply suitability increases as distances decrease, reflecting a preference for properties very near the school while gradually prioritizing those farther away.
-
-This function can help identify optimal zones for housing developments or public investments.
-
-:::
-
-
-### <img src="images/gaussian.svg" height="75">
-
-::: {.slide_frame}
-
-#### Rescale using a gaussian transformation
-
-The Gaussian function transforms the input values using a normal distribution. The midpoint defines the most preferred value, or the highest suitability. The suitability decreases as the input values move away from the midpoint. The shape of the curve is defined by two parameters, the midpoint and the spread.
-
-
-<div class="paddingimage">
-```{r, out.width= "70%", out.extra='style="float:right;"'}
-knitr::include_graphics("images/rescale_gaussianmembership.png")
-```
-</div>
-
-**Midpoint**: Represents the most preferred value or the highest suitability. I.e., iput values closest to the midpoint are assigned the highest suitability scores. In the figure, the midpoint is set at 25. Increasing the midpoint to 35 would shift the curves to the right, making 35 the most suitable value. 
-
-**Spread**: Controls the shape of the curve, determining how sharply the suitability values decrease as input values deviate from the midpoint. A larger spread produces a flatter, more gradual decline in suitability, while a smaller spread results in a steeper curve, indicating stricter preference for values close to the midpoint. Compare the curves based on a spread of 0.01, 0.06 and 0.7.
-
-The Near and Gaussian transformation functions can behave similarly depending on the parameters used. However, if we set the parameters so that the membership value (the rescale value) reaches zero at the same endpoints (e.g., 0 and 50), the Near function shows a narrower spread, compared to the Gaussian function. This makes the Near function better suitable for scenarios where values very close to the midpoint are significantly more preferred than others.
-
-:::
-
-***
-
-::: {.slide_frame}
-
-#### User case
-
-**Example 1**
-When installing solar panels, selecting the right direction to have the panels face is important in maximizing their output. For the northern hemisphere, the south-facing aspect (180 degrees) has the highest preference. The preference for the aspects facing more and more toward the east or west continuously decreases, until aspects facing north are the least preferred.
-
-**Example 2**
-
-You are modeling the environmental suitability for a plant species. The species thrives in areas where the temperature is around 25°C, but it can tolerate slight deviations. Beyond this range, the suitability decreases gradually. 
-
-:::
-
 ### <img src="images/near.svg" height="75">
 
 ::: {.slide_frame}
 
 #### Rescale using a near transformation
 
-The Near function is typically used when suitability is highest at a certain value, and it decreases for smaller én larger values of the original raster. The shape of the suitability curve is defined by two key parameters:
+values of the original raster. For example, a particular plant might grow best at an average temperature of 18°C. This temperature would be rescaled to 1 (indicating maximum suitability), while temperatures above or below 18°C would result in lower suitability scores.
+
+The Near function is commonly used when suitability is highest at a specific value and decreases for both smaller and larger. The shape of the suitability curve is defined by two key parameters:
 
 <div class="paddingimage">
 ```{r, out.width= "70%", out.extra='style="float:right;"'}
@@ -726,17 +589,18 @@ knitr::include_graphics("images/rescale_nearmembership.svg")
 ```
 </div>
 
-**Midpoint**: The value in the original raster that represents the most suitable condition (e.g., 258°C in the example).
+- Midpoint: The value in the original raster that represents the most suitable condition (e.g., 18°C in the example).
+- Spread: Controls how quickly suitability decreases as values move away from the midpoint. A larger spread results in a "flatter" curve, indicating less sensitivity to deviations from the optimal condition.
 
-**Spread**: Controls how quickly suitability decreases as values move away from the midpoint. A larger spread results in a "flatter" curve, indicating less sensitivity to deviations from the optimal condition.
+In the figure above, the midpoint is set to 25 for all three curves. Increasing the midpoint to 35 would shift the curves to the right, making 35 the most suitable value. The spread remains constant, so the shape of the curves would stay the same.
 
-In the figure, the midpoint is set to 25 for all three curves. Increasing the midpoint to 35 would shift the curves to the right, making 35 the most suitable value. The spread remains constant, so the shape of the curves would stay the same.
-
-The Near and Gaussian transformation functions can behave similarly depending on the parameters used. However, if we set the parameters so that the membership value (the rescale value) reaches zero at the same endpoints (e.g., 0 and 50), the Near function shows a narrower spread, compared to the Gaussian function. This makes the Near function better suitable for scenarios where values very close to the midpoint are significantly more preferred than others.
+The Near and Gaussian transformation functions can behave similarly depending on the parameters used. However, the Near function typically decreases at a faster rate, with a narrower spread, compared to the Gaussian function. This makes the Near function ideal for scenarios where values very close to the midpoint are significantly more preferred than others.
 
 :::
 
 ***
+
+::: {.slide_frame}
 
 #### User case
 
@@ -753,9 +617,41 @@ Using the Near function:
 - The midpoint is set to 3 kilometers, where suitability is highest.
 - The spread controls how quickly suitability decreases as the distance becomes too close (<3 km, causing congestion) or too far (>3 km, reducing accessibility).
 
-For example, a larger spread would accommodate a wider range of distances around the midpoint, while a smaller spread would narrow the focus to areas very close to 3 kilometers. 
+For example, a larger spread would accommodate a wider range of distances around the midpoint, while a smaller spread would narrow the focus to areas very close to 3 kilometers.
 
-Note we assume here that the suitability decreases at the same rate when moving from the three kilometer point away, or towards the residential neighborhoods. 
+This modeling approach helps urban planners identify the optimal locations for a shopping center while balancing accessibility and minimizing disruption to residential areas.
+
+:::
+
+
+:::
+
+### <img src="images/large.svg" height="75">
+
+```{r}
+```
+test
+
+### <img src="images/small.svg" height="75">
+
+```{r}
+```
+test
+
+### <img src="images/gaussian.svg" height="75">
+
+```{r}
+```
+test
+
+
+
+
+
+
+
+
+
 
 
 
